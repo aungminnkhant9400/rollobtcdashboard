@@ -247,8 +247,9 @@ class APIHandler(BaseHTTPRequestHandler):
 
 def run_server(port=8081):
     init_db()
-    server = HTTPServer(("127.0.0.1", port), APIHandler)
-    print(f"RolloBTC API running on http://127.0.0.1:{port}")
+    port = int(os.environ.get("PORT", port))
+    server = HTTPServer(("0.0.0.0", port), APIHandler)
+    print(f"RolloBTC API running on port {port}")
     server.serve_forever()
 
 
