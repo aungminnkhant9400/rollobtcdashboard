@@ -241,6 +241,15 @@ class APIHandler(BaseHTTPRequestHandler):
             conn.close()
             self._send_json({"id": trade_id, "pnl": round(pnl, 2), "result": result})
 
+        elif path == "/api/trades/reset":
+            conn = get_db()
+            conn.execute("DELETE FROM trades")
+            conn.execute("DELETE FROM limits")
+            conn.execute("INSERT INTO limits (id, daily_loss, weekly_loss, last_reset_date, last_reset_week) VALUES (1, 0, 0, date('now'), strftime('%Y-%W', 'now'))")
+            conn.commit()
+            conn.close()
+            self._send_json({"status": "reset", "message": "All trades and limits cleared"})
+
         else:
             self._send_json({"error": "Not found"}, 404)
 
