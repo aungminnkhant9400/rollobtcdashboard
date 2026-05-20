@@ -38,7 +38,6 @@
       min-height: 100vh;
     }
 
-    /* Grid overlay */
     body::before {
       content: '';
       position: fixed;
@@ -59,7 +58,6 @@
       z-index: 1;
     }
 
-    /* Header */
     .header {
       display: flex;
       justify-content: space-between;
@@ -82,9 +80,7 @@
       letter-spacing: -0.5px;
     }
 
-    .brand h1 span {
-      color: var(--accent);
-    }
+    .brand h1 span { color: var(--accent); }
 
     .brand-meta {
       font-family: var(--font-mono);
@@ -93,9 +89,7 @@
       letter-spacing: 0.5px;
     }
 
-    .account-info {
-      text-align: right;
-    }
+    .account-info { text-align: right; }
 
     .account-balance {
       font-family: var(--font-mono);
@@ -111,7 +105,15 @@
       margin-top: 4px;
     }
 
-    /* Stats Row */
+    .api-status {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      margin-top: 6px;
+    }
+
+    .api-status.online { color: var(--green); }
+    .api-status.offline { color: var(--red); }
+
     .stats-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -167,7 +169,6 @@
       margin-top: 4px;
     }
 
-    /* Main Grid */
     .main-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -205,24 +206,16 @@
       border: 1px solid var(--accent);
     }
 
-    .panel-body {
-      padding: 20px;
-    }
+    .panel-body { padding: 20px; }
 
-    /* Position Calculator */
     .calc-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
 
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
+    .form-group { margin-bottom: 16px; }
+    .form-group.full-width { grid-column: 1 / -1; }
 
     .form-label {
       display: block;
@@ -245,13 +238,8 @@
       transition: border-color 0.2s;
     }
 
-    .form-input:focus {
-      border-color: var(--accent);
-    }
-
-    .form-input::placeholder {
-      color: var(--text-dim);
-    }
+    .form-input:focus { border-color: var(--accent); }
+    .form-input::placeholder { color: var(--text-dim); }
 
     .calc-results {
       grid-column: 1 / -1;
@@ -263,9 +251,7 @@
       border-top: 1px solid var(--border);
     }
 
-    .result-item {
-      text-align: center;
-    }
+    .result-item { text-align: center; }
 
     .result-label {
       font-size: 10px;
@@ -285,7 +271,6 @@
     .result-value.risk-med { color: var(--yellow); }
     .result-value.risk-high { color: var(--red); }
 
-    /* Trade Entry */
     .trade-form {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -333,8 +318,10 @@
       color: #fff;
     }
 
-    .btn-primary:hover {
-      background: #ff5544;
+    .btn-primary:hover { background: #ff5544; }
+    .btn-primary:disabled {
+      background: var(--text-dim);
+      cursor: not-allowed;
     }
 
     .btn-success {
@@ -347,7 +334,6 @@
       color: #fff;
     }
 
-    /* Trade History */
     .history-table {
       width: 100%;
       border-collapse: collapse;
@@ -372,9 +358,7 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .history-table tr:hover td {
-      background: var(--bg-elevated);
-    }
+    .history-table tr:hover td { background: var(--bg-elevated); }
 
     .tag {
       display: inline-block;
@@ -388,7 +372,6 @@
     .tag-win { background: var(--green-dim); color: var(--green); }
     .tag-loss { background: var(--red-dim); color: var(--red); }
 
-    /* Limits Bar */
     .limits-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -450,7 +433,17 @@
       color: var(--text-dim);
     }
 
-    /* Responsive */
+    .sync-status {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    .sync-status.syncing { color: var(--yellow); }
+    .sync-status.synced { color: var(--green); }
+    .sync-status.error { color: var(--red); }
+
     @media (max-width: 1024px) {
       .stats-row { grid-template-columns: repeat(2, 1fr); }
       .main-grid { grid-template-columns: 1fr; }
@@ -464,7 +457,6 @@
       .trade-form { grid-template-columns: 1fr; }
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -473,7 +465,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <div class="header">
       <div class="brand">
         <h1>Rollo<span>BTC</span></h1>
@@ -482,10 +473,10 @@
       <div class="account-info">
         <div class="account-balance" id="accountBalance">$1,000.00</div>
         <div class="account-label">Account Balance</div>
+        <div class="api-status offline" id="apiStatus">● API: Connecting...</div>
       </div>
     </div>
 
-    <!-- Limits -->
     <div class="limits-row">
       <div class="limit-card">
         <div class="limit-header">
@@ -528,7 +519,6 @@
       </div>
     </div>
 
-    <!-- Stats -->
     <div class="stats-row">
       <div class="stat-card positive">
         <div class="stat-label">Today's P&L</div>
@@ -552,9 +542,7 @@
       </div>
     </div>
 
-    <!-- Main Grid -->
     <div class="main-grid">
-      <!-- Position Calculator -->
       <div class="panel">
         <div class="panel-header">
           <span class="panel-title">Position Calculator</span>
@@ -596,7 +584,6 @@
         </div>
       </div>
 
-      <!-- Trade Entry -->
       <div class="panel">
         <div class="panel-header">
           <span class="panel-title">New Trade</span>
@@ -640,13 +627,13 @@
             </div>
             <div class="form-group full-width">
               <button class="btn btn-primary" id="btnEntry" style="width: 100%">Enter Trade</button>
+              <div class="sync-status" id="entrySync"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Trade History -->
     <div class="panel" style="margin-bottom: 24px;">
       <div class="panel-header">
         <span class="panel-title">Trade History</span>
@@ -670,7 +657,7 @@
           <tbody id="tradeHistory">
             <tr>
               <td colspan="9" style="text-align: center; color: var(--text-dim); padding: 40px;">
-                No trades yet. Enter your first trade above.
+                Loading trades...
               </td>
             </tr>
           </tbody>
@@ -678,7 +665,6 @@
       </div>
     </div>
 
-    <!-- Close Trade Modal (hidden by default) -->
     <div class="panel" id="closePanel" style="display: none; margin-bottom: 24px;">
       <div class="panel-header">
         <span class="panel-title">Close Position</span>
@@ -714,14 +700,15 @@
   </div>
 
   <script>
-    // State
-    const state = {
-      balance: 1000,
+    const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://127.0.0.1:8081'
+      : '';
+
+    let state = {
       trades: [],
       openPositions: [],
-      dailyLoss: 0,
-      weeklyLoss: 0,
-      setupType: 'reversal'
+      setupType: 'reversal',
+      apiOnline: false
     };
 
     const DAILY_LIMIT = 60;
@@ -729,9 +716,9 @@
     const MAX_POSITIONS = 3;
     const LEVERAGE = 50;
 
-    // DOM refs
     const els = {
       accountBalance: document.getElementById('accountBalance'),
+      apiStatus: document.getElementById('apiStatus'),
       todayPnL: document.getElementById('todayPnL'),
       todayTrades: document.getElementById('todayTrades'),
       winRate: document.getElementById('winRate'),
@@ -753,7 +740,118 @@
       posBar: document.getElementById('posBar'),
       posStatus: document.getElementById('posStatus'),
       posPct: document.getElementById('posPct'),
+      entrySync: document.getElementById('entrySync'),
+      btnEntry: document.getElementById('btnEntry')
     };
+
+    async function apiCall(path, method = 'GET', body = null) {
+      try {
+        const options = {
+          method,
+          headers: { 'Content-Type': 'application/json' }
+        };
+        if (body) options.body = JSON.stringify(body);
+        const res = await fetch(API_URL + path, options);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+      } catch (err) {
+        console.error('API error:', err);
+        throw err;
+      }
+    }
+
+    async function loadData() {
+      try {
+        const [stats, trades, limits] = await Promise.all([
+          apiCall('/api/stats'),
+          apiCall('/api/trades'),
+          apiCall('/api/limits')
+        ]);
+
+        state.apiOnline = true;
+        els.apiStatus.textContent = '● API: Online';
+        els.apiStatus.className = 'api-status online';
+
+        updateStats(stats);
+        updateLimits(limits);
+        renderTrades(trades.trades);
+      } catch (err) {
+        state.apiOnline = false;
+        els.apiStatus.textContent = '● API: Offline (using localStorage)';
+        els.apiStatus.className = 'api-status offline';
+        loadFromLocal();
+      }
+    }
+
+    function updateStats(stats) {
+      els.accountBalance.textContent = '$' + stats.balance.toFixed(2);
+      els.accountBalance.style.color = stats.balance >= 1000 ? 'var(--text)' : 'var(--red)';
+
+      const todayPnL = stats.today_pnl;
+      els.todayPnL.textContent = (todayPnL >= 0 ? '+' : '') + '$' + todayPnL.toFixed(2);
+      els.todayPnL.className = 'stat-value ' + (todayPnL >= 0 ? 'positive' : 'negative');
+
+      const todayTradeCount = state.trades.filter(t => t.date === new Date().toISOString().split('T')[0] && t.status === 'closed').length;
+      els.todayTrades.textContent = todayTradeCount + ' trades';
+
+      els.winRate.textContent = stats.win_rate + '%';
+      els.winLoss.textContent = stats.wins + 'W / ' + stats.losses + 'L';
+      els.totalTrades.textContent = stats.total_trades;
+      els.totalVolume.textContent = '$' + stats.volume.toFixed(0) + ' volume';
+    }
+
+    function updateLimits(limits) {
+      const dailyPct = (limits.daily_loss / limits.daily_limit) * 100;
+      els.dailyBar.style.width = Math.min(dailyPct, 100) + '%';
+      els.dailyBar.className = 'limit-fill ' + (dailyPct >= 100 ? 'breached' : dailyPct >= 80 ? 'warning' : 'safe');
+      els.dailyStatus.className = 'limit-status ' + (dailyPct >= 100 ? 'breached' : dailyPct >= 80 ? 'warning' : 'safe');
+      els.dailyStatus.textContent = dailyPct >= 100 ? 'BREACHED' : dailyPct >= 80 ? 'WARNING' : 'SAFE';
+      els.dailyUsed.textContent = '$' + limits.daily_loss.toFixed(0) + ' / $' + limits.daily_limit;
+      els.dailyPct.textContent = dailyPct.toFixed(0) + '%';
+
+      const weeklyPct = (limits.weekly_loss / limits.weekly_limit) * 100;
+      els.weeklyBar.style.width = Math.min(weeklyPct, 100) + '%';
+      els.weeklyBar.className = 'limit-fill ' + (weeklyPct >= 100 ? 'breached' : weeklyPct >= 80 ? 'warning' : 'safe');
+      els.weeklyStatus.className = 'limit-status ' + (weeklyPct >= 100 ? 'breached' : weeklyPct >= 80 ? 'warning' : 'safe');
+      els.weeklyStatus.textContent = weeklyPct >= 100 ? 'BREACHED' : weeklyPct >= 80 ? 'WARNING' : 'SAFE';
+      els.weeklyUsed.textContent = '$' + limits.weekly_loss.toFixed(0) + ' / $' + limits.weekly_limit;
+      els.weeklyPct.textContent = weeklyPct.toFixed(0) + '%';
+
+      const openCount = state.openPositions.length;
+      const posPct = (openCount / limits.max_positions) * 100;
+      els.posBar.style.width = posPct + '%';
+      els.posBar.className = 'limit-fill ' + (openCount >= limits.max_positions ? 'warning' : 'safe');
+      els.posStatus.textContent = openCount + '/' + limits.max_positions;
+      els.posPct.textContent = posPct.toFixed(0) + '%';
+    }
+
+    function renderTrades(trades) {
+      state.trades = trades;
+      state.openPositions = trades.filter(t => t.status === 'open');
+      els.historyCount.textContent = trades.length + ' TRADES';
+
+      if (trades.length === 0) {
+        els.tradeHistory.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--text-dim); padding: 40px;">No trades yet. Enter your first trade above.</td></tr>';
+        return;
+      }
+
+      els.tradeHistory.innerHTML = trades.slice().reverse().map(t => {
+        const pnlClass = t.pnl > 0 ? 'positive' : t.pnl < 0 ? 'negative' : '';
+        const pnlText = t.pnl !== null ? (t.pnl >= 0 ? '+' : '') + '$' + t.pnl.toFixed(2) : '-';
+
+        return `<tr>
+          <td>${t.date} ${t.time}</td>
+          <td><span class="tag tag-${t.setup}">${t.setup.toUpperCase()}</span></td>
+          <td>${t.direction.toUpperCase()}</td>
+          <td>$${t.entry.toLocaleString()}</td>
+          <td>${t.exit_price ? '$' + t.exit_price.toLocaleString() : '<button class="btn btn-primary" style="padding: 4px 12px; font-size: 10px;" onclick="showClosePanel(' + t.id + ')">CLOSE</button>'}</td>
+          <td>$${t.margin}</td>
+          <td class="${pnlClass}">${pnlText}</td>
+          <td>${t.rr ? t.rr + ':1' : '-'}</td>
+          <td>${t.result ? '<span class="tag tag-' + t.result + '">' + t.result.toUpperCase() + '</span>' : '<span style="color: var(--yellow);">OPEN</span>'}</td>
+        </tr>`;
+      }).join('');
+    }
 
     // Setup tags
     document.querySelectorAll('.setup-tag').forEach(tag => {
@@ -790,7 +888,7 @@
     });
 
     // Enter trade
-    document.getElementById('btnEntry').addEventListener('click', () => {
+    els.btnEntry.addEventListener('click', async () => {
       if (state.openPositions.length >= MAX_POSITIONS) {
         alert('Max 3 open positions. Close one first.');
         return;
@@ -808,51 +906,74 @@
         return;
       }
 
-      const trade = {
-        id: state.trades.length + 1,
-        date: new Date().toISOString().split('T')[0],
-        time: new Date().toTimeString().split(' ')[0].slice(0,5),
-        setup: state.setupType,
-        direction,
-        entry,
-        stop,
-        target,
-        margin,
-        notes,
-        status: 'open',
-        exitPrice: null,
-        pnl: null,
-        result: null,
-        rr: null
-      };
+      els.btnEntry.disabled = true;
+      els.entrySync.textContent = 'Syncing...';
+      els.entrySync.className = 'sync-status syncing';
 
-      state.openPositions.push(trade);
-      state.trades.push(trade);
+      try {
+        const trade = {
+          setup: state.setupType,
+          direction,
+          entry,
+          stop,
+          target,
+          margin,
+          notes
+        };
 
-      // Clear form
-      document.getElementById('tradeEntry').value = '';
-      document.getElementById('tradeStop').value = '';
-      document.getElementById('tradeTarget').value = '';
-      document.getElementById('tradeMargin').value = '';
-      document.getElementById('tradeNotes').value = '';
+        if (state.apiOnline) {
+          await apiCall('/api/trades', 'POST', trade);
+          await loadData();
+        } else {
+          // Fallback to localStorage
+          const localTrade = {
+            id: Date.now(),
+            date: new Date().toISOString().split('T')[0],
+            time: new Date().toTimeString().split(' ')[0].slice(0,5),
+            ...trade,
+            status: 'open',
+            exit_price: null,
+            pnl: null,
+            result: null,
+            rr: null
+          };
+          state.trades.push(localTrade);
+          saveToLocal();
+          renderTrades(state.trades);
+        }
 
-      updateUI();
+        // Clear form
+        document.getElementById('tradeEntry').value = '';
+        document.getElementById('tradeStop').value = '';
+        document.getElementById('tradeTarget').value = '';
+        document.getElementById('tradeMargin').value = '';
+        document.getElementById('tradeNotes').value = '';
+
+        els.entrySync.textContent = 'Synced ✓';
+        els.entrySync.className = 'sync-status synced';
+        setTimeout(() => { els.entrySync.textContent = ''; }, 3000);
+      } catch (err) {
+        els.entrySync.textContent = 'Sync failed ✗';
+        els.entrySync.className = 'sync-status error';
+      } finally {
+        els.btnEntry.disabled = false;
+      }
     });
 
     // Close trade
-    let closingTrade = null;
+    let closingTradeId = null;
 
-    function showClosePanel(trade) {
-      closingTrade = trade;
+    window.showClosePanel = function(id) {
+      closingTradeId = id;
       els.closePanel.style.display = 'block';
-      els.closeTradeId.textContent = '#' + trade.id;
+      els.closeTradeId.textContent = '#' + id;
       document.getElementById('closePrice').value = '';
       document.getElementById('closeNotes').value = '';
       els.closePanel.scrollIntoView({ behavior: 'smooth' });
-    }
+    };
 
-    function closeTrade(result) {
-      if (!closingTrade) return;
+    async function closeTrade(result) {
+      if (!closingTradeId) return;
 
       const exitPrice = parseFloat(document.getElementById('closePrice').value);
       if (!exitPrice) {
@@ -860,174 +981,63 @@
         return;
       }
 
-      const t = closingTrade;
-      const direction = t.direction === 'long' ? 1 : -1;
-      const priceDiff = (exitPrice - t.entry) * direction;
-      const pnl = priceDiff / t.entry * t.margin * LEVERAGE;
+      try {
+        if (state.apiOnline) {
+          await apiCall('/api/trades/close', 'POST', {
+            id: closingTradeId,
+            exit_price: exitPrice,
+            result,
+            close_notes: document.getElementById('closeNotes').value
+          });
+          await loadData();
+        } else {
+          const trade = state.trades.find(t => t.id === closingTradeId);
+          if (trade) {
+            const dir = trade.direction === 'long' ? 1 : -1;
+            const priceDiff = (exitPrice - trade.entry) * dir;
+            const pnl = priceDiff / trade.entry * trade.margin * LEVERAGE;
+            trade.exit_price = exitPrice;
+            trade.pnl = pnl;
+            trade.result = result === 'be' ? 'be' : (pnl > 0 ? 'win' : 'loss');
+            trade.status = 'closed';
+            trade.close_notes = document.getElementById('closeNotes').value;
+            const risk = Math.abs(trade.entry - trade.stop);
+            const reward = Math.abs(exitPrice - trade.entry);
+            trade.rr = risk > 0 ? (reward / risk).toFixed(1) : '0';
+            saveToLocal();
+            renderTrades(state.trades);
+          }
+        }
 
-      t.exitPrice = exitPrice;
-      t.pnl = pnl;
-      t.result = result === 'be' ? 'be' : (pnl > 0 ? 'win' : 'loss');
-      t.status = 'closed';
-      t.closeNotes = document.getElementById('closeNotes').value;
-
-      // Calculate R:R
-      const risk = Math.abs(t.entry - t.stop);
-      const reward = Math.abs(exitPrice - t.entry);
-      t.rr = risk > 0 ? (reward / risk).toFixed(1) : '0';
-
-      // Update limits
-      if (pnl < 0) {
-        state.dailyLoss += Math.abs(pnl);
-        state.weeklyLoss += Math.abs(pnl);
+        closingTradeId = null;
+        els.closePanel.style.display = 'none';
+      } catch (err) {
+        alert('Failed to close trade: ' + err.message);
       }
-
-      // Remove from open positions
-      state.openPositions = state.openPositions.filter(p => p.id !== t.id);
-
-      closingTrade = null;
-      els.closePanel.style.display = 'none';
-      updateUI();
     }
 
     document.getElementById('btnCloseWin').addEventListener('click', () => closeTrade('win'));
     document.getElementById('btnCloseLoss').addEventListener('click', () => closeTrade('loss'));
 
-    // Update UI
-    function updateUI() {
-      // Account balance
-      const totalPnL = state.trades.filter(t => t.status === 'closed').reduce((sum, t) => sum + t.pnl, 0);
-      state.balance = 1000 + totalPnL;
-      els.accountBalance.textContent = '$' + state.balance.toFixed(2);
-      els.accountBalance.style.color = state.balance >= 1000 ? 'var(--text)' : 'var(--red)';
-
-      // Today's P&L
-      const today = new Date().toISOString().split('T')[0];
-      const todayTrades = state.trades.filter(t => t.date === today && t.status === 'closed');
-      const todayPnL = todayTrades.reduce((sum, t) => sum + t.pnl, 0);
-      els.todayPnL.textContent = (todayPnL >= 0 ? '+' : '') + '$' + todayPnL.toFixed(2);
-      els.todayPnL.className = 'stat-value ' + (todayPnL >= 0 ? 'positive' : 'negative');
-      els.todayTrades.textContent = todayTrades.length + ' trades';
-
-      // Win rate
-      const closed = state.trades.filter(t => t.status === 'closed');
-      const wins = closed.filter(t => t.result === 'win').length;
-      const losses = closed.filter(t => t.result === 'loss').length;
-      const wr = closed.length > 0 ? ((wins / closed.length) * 100).toFixed(1) : 0;
-      els.winRate.textContent = wr + '%';
-      els.winLoss.textContent = wins + 'W / ' + losses + 'L';
-
-      // Total trades
-      els.totalTrades.textContent = state.trades.length;
-      const volume = state.trades.reduce((sum, t) => sum + t.margin * LEVERAGE, 0);
-      els.totalVolume.textContent = '$' + volume.toFixed(0) + ' volume';
-
-      // History
-      els.historyCount.textContent = state.trades.length + ' TRADES';
-      renderHistory();
-
-      // Limits
-      updateLimits();
-    }
-
-    function renderHistory() {
-      if (state.trades.length === 0) {
-        els.tradeHistory.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--text-dim); padding: 40px;">No trades yet. Enter your first trade above.</td></tr>';
-        return;
-      }
-
-      els.tradeHistory.innerHTML = state.trades.slice().reverse().map(t => {
-        const isOpen = t.status === 'open';
-        const pnlClass = t.pnl > 0 ? 'positive' : t.pnl < 0 ? 'negative' : '';
-        const pnlText = t.pnl !== null ? (t.pnl >= 0 ? '+' : '') + '$' + t.pnl.toFixed(2) : '-';
-
-        return `<tr>
-          <td>${t.date} ${t.time}</td>
-          <td><span class="tag tag-${t.setup}">${t.setup.toUpperCase()}</span></td>
-          <td>${t.direction.toUpperCase()}</td>
-          <td>$${t.entry.toLocaleString()}</td>
-          <td>${t.exitPrice ? '$' + t.exitPrice.toLocaleString() : '<button class="btn btn-primary" style="padding: 4px 12px; font-size: 10px;" onclick="closeTradeById(' + t.id + ')">CLOSE</button>'}</td>
-          <td>$${t.margin}</td>
-          <td class="${pnlClass}">${pnlText}</td>
-          <td>${t.rr ? t.rr + ':1' : '-'}</td>
-          <td>${t.result ? '<span class="tag tag-' + t.result + '">' + t.result.toUpperCase() + '</span>' : '<span style="color: var(--yellow);">OPEN</span>'}</td>
-        </tr>`;
-      }).join('');
-    }
-
-    function closeTradeById(id) {
-      const trade = state.openPositions.find(p => p.id === id);
-      if (trade) showClosePanel(trade);
-    }
-
-    function updateLimits() {
-      // Daily
-      const dailyPct = (state.dailyLoss / DAILY_LIMIT) * 100;
-      els.dailyBar.style.width = Math.min(dailyPct, 100) + '%';
-      els.dailyBar.className = 'limit-fill ' + (dailyPct >= 100 ? 'breached' : dailyPct >= 80 ? 'warning' : 'safe');
-      els.dailyStatus.className = 'limit-status ' + (dailyPct >= 100 ? 'breached' : dailyPct >= 80 ? 'warning' : 'safe');
-      els.dailyStatus.textContent = dailyPct >= 100 ? 'BREACHED' : dailyPct >= 80 ? 'WARNING' : 'SAFE';
-      els.dailyUsed.textContent = '$' + state.dailyLoss.toFixed(0) + ' / $' + DAILY_LIMIT;
-      els.dailyPct.textContent = dailyPct.toFixed(0) + '%';
-
-      // Weekly
-      const weeklyPct = (state.weeklyLoss / WEEKLY_LIMIT) * 100;
-      els.weeklyBar.style.width = Math.min(weeklyPct, 100) + '%';
-      els.weeklyBar.className = 'limit-fill ' + (weeklyPct >= 100 ? 'breached' : weeklyPct >= 80 ? 'warning' : 'safe');
-      els.weeklyStatus.className = 'limit-status ' + (weeklyPct >= 100 ? 'breached' : weeklyPct >= 80 ? 'warning' : 'safe');
-      els.weeklyStatus.textContent = weeklyPct >= 100 ? 'BREACHED' : weeklyPct >= 80 ? 'WARNING' : 'SAFE';
-      els.weeklyUsed.textContent = '$' + state.weeklyLoss.toFixed(0) + ' / $' + WEEKLY_LIMIT;
-      els.weeklyPct.textContent = weeklyPct.toFixed(0) + '%';
-
-      // Positions
-      const posPct = (state.openPositions.length / MAX_POSITIONS) * 100;
-      els.posBar.style.width = posPct + '%';
-      els.posBar.className = 'limit-fill ' + (state.openPositions.length >= MAX_POSITIONS ? 'warning' : 'safe');
-      els.posStatus.textContent = state.openPositions.length + '/' + MAX_POSITIONS;
-      els.posPct.textContent = posPct.toFixed(0) + '%';
-    }
-
-    // Reset daily/weekly on new day/week
-    function checkReset() {
-      const now = new Date();
-      const lastCheck = localStorage.getItem('rollobtc_lastCheck');
-      if (lastCheck) {
-        const last = new Date(lastCheck);
-        if (now.getDate() !== last.getDate()) state.dailyLoss = 0;
-        if (now.getDay() === 1 && last.getDay() !== 1) state.weeklyLoss = 0;
-      }
-      localStorage.setItem('rollobtc_lastCheck', now.toISOString());
-    }
-
-    // Save/load
-    function save() {
+    // LocalStorage fallback
+    function saveToLocal() {
       localStorage.setItem('rollobtc_trades', JSON.stringify(state.trades));
-      localStorage.setItem('rollobtc_balance', state.balance);
-      localStorage.setItem('rollobtc_dailyLoss', state.dailyLoss);
-      localStorage.setItem('rollobtc_weeklyLoss', state.weeklyLoss);
     }
 
-    function load() {
+    function loadFromLocal() {
       const trades = localStorage.getItem('rollobtc_trades');
       if (trades) {
         state.trades = JSON.parse(trades);
         state.openPositions = state.trades.filter(t => t.status === 'open');
+        renderTrades(state.trades);
+      } else {
+        els.tradeHistory.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--text-dim); padding: 40px;">No trades yet. Enter your first trade above.</td></tr>';
       }
-      state.balance = parseFloat(localStorage.getItem('rollobtc_balance')) || 1000;
-      state.dailyLoss = parseFloat(localStorage.getItem('rollobtc_dailyLoss')) || 0;
-      state.weeklyLoss = parseFloat(localStorage.getItem('rollobtc_weeklyLoss')) || 0;
     }
 
     // Init
-    load();
-    checkReset();
-    updateUI();
-
-    // Auto-save
-    setInterval(save, 5000);
-
-    // Expose for inline onclick
-    window.closeTradeById = closeTradeById;
+    loadData();
+    setInterval(loadData, 30000); // Refresh every 30s
   </script>
 </body>
 </html>
